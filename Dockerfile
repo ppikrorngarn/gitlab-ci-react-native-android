@@ -8,8 +8,8 @@
 FROM ubuntu:17.10
 MAINTAINER Sascha-Matthias Kulawik <sascha@kulawik.de>
 
-RUN echo "Android SDK 26.0.2"
-ENV VERSION_SDK_TOOLS "3859397"
+RUN echo "Android SDK 28.0.2"
+ENV VERSION_SDK_TOOLS "4333796"
 
 ENV ANDROID_HOME "/sdk"
 ENV PATH "$PATH:${ANDROID_HOME}/tools"
@@ -54,7 +54,7 @@ RUN echo "Installing Yarn Deb Source" \
 	&& echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 RUN echo "Installing Node.JS" \
-	&& curl -sL https://deb.nodesource.com/setup_9.x | bash -
+	&& curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
 ENV BUILD_PACKAGES git yarn nodejs build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev
 RUN echo "Installing Additional Libraries" \
@@ -66,7 +66,7 @@ RUN echo "Installing Fastlane 2.61.0" \
 	&& gem cleanup
 
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 3.3
+ENV GRADLE_VERSION 4.6
 
 RUN echo "Downloading Gradle" \
 	&& wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
