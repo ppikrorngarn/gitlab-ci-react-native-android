@@ -60,6 +60,8 @@ RUN echo "Installing Yarn Deb Source" \
 	&& curl -sS http://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 	&& echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
+RUN mkdir $NVM_DIR
+
 RUN echo "Installing NVM" \
 	&& curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
 
