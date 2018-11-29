@@ -15,6 +15,12 @@ ENV ANDROID_HOME "/sdk"
 ENV PATH "$PATH:${ANDROID_HOME}/tools"
 ENV DEBIAN_FRONTEND noninteractive
 
+ENV NVM_VERSION v0.33.11
+ENV NODE_VERSION v8.12.0
+
+ENV GRADLE_HOME /opt/gradle
+ENV GRADLE_VERSION 4.6
+
 RUN apt-get -qq update && \
     apt-get install -qqy --no-install-recommends \
       bzip2 \
@@ -53,10 +59,15 @@ RUN echo "Installing Yarn Deb Source" \
 	&& curl -sS http://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 	&& echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-RUN echo "Installing Node.JS" \
-	&& curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN echo "Installing NVM" \
+	&& curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
 
-ENV BUILD_PACKAGES git yarn nodejs build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev
+RUN echo "source $NVM_DIR/nvm.sh && \
+    nvm install $NODE_VERSION && \
+    nvm alias default $NODE_VERSION && \
+    nvm use default" | bash
+
+ENV BUILD_PACKAGES git build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev
 RUN echo "Installing Additional Libraries" \
 	 && rm -rf /var/lib/gems \
 	 && apt-get update && apt-get install $BUILD_PACKAGES -qqy --no-install-recommends
@@ -64,9 +75,6 @@ RUN echo "Installing Additional Libraries" \
 RUN echo "Installing Fastlane 2.61.0" \
 	&& gem install fastlane badge -N \
 	&& gem cleanup
-
-ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 4.6
 
 RUN echo "Downloading Gradle" \
 	&& wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
