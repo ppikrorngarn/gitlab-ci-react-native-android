@@ -62,11 +62,6 @@ RUN echo "Installing Yarn Deb Source" \
 RUN echo "Installing NVM" \
 	&& curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
 
-RUN echo "source $NVM_DIR/nvm.sh && \
-    nvm install $NODE_VERSION && \
-    nvm alias default $NODE_VERSION && \
-    nvm use default" | bash
-
 ENV BUILD_PACKAGES git build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev
 RUN echo "Installing Additional Libraries" \
 	 && rm -rf /var/lib/gems \
