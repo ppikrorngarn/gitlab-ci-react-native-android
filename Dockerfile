@@ -15,6 +15,7 @@ ENV ANDROID_HOME "/sdk"
 ENV PATH "$PATH:${ANDROID_HOME}/tools"
 ENV DEBIAN_FRONTEND noninteractive
 
+ENV NVM_DIR /usr/local/nvm
 ENV NVM_VERSION v0.33.11
 ENV NODE_VERSION v8.12.0
 
@@ -61,6 +62,11 @@ RUN echo "Installing Yarn Deb Source" \
 
 RUN echo "Installing NVM" \
 	&& curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
+
+RUN echo "source $NVM_DIR/nvm.sh && \
+    nvm install $NODE_VERSION && \
+    nvm alias default $NODE_VERSION && \
+    nvm use default" | bash
 
 ENV BUILD_PACKAGES git build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev
 RUN echo "Installing Additional Libraries" \
