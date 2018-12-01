@@ -26,7 +26,7 @@ RUN apt-get -qq update && \
 RUN echo "Android SDK 28.0.3"
 ENV VERSION_SDK_TOOLS "4333796"
 
-ENV USER_HOME "/home/docker"
+ENV USER_HOME "/root"
 RUN echo "ANDROID_HOME: $USER_HOME/sdk"
 ENV ANDROID_HOME $USER_HOME/sdk
 ENV PATH "$PATH:${ANDROID_HOME}/tools"
@@ -42,8 +42,11 @@ ENV GRADLE_VERSION 4.6
 RUN rm -f /etc/ssl/certs/java/cacerts; \
     /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
-RUN echo "Add Docker User" \
-  && adduser --disabled-password --gecos '' docker
+RUN echo "Installing Sudo" \
+  && apt-get update && apt-get install sudo
+
+RUN echo "Installing inotify" \
+  && sudo apt-get install -y inotify-tools
 
 RUN curl -s https://dl.google.com/android/repository/sdk-tools-linux-${VERSION_SDK_TOOLS}.zip > $USER_HOME/sdk.zip && \
     unzip $USER_HOME/sdk.zip -d $USER_HOME/sdk && \
@@ -53,7 +56,7 @@ RUN mkdir -p $ANDROID_HOME/licenses/ \
   && echo "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e" > $ANDROID_HOME/licenses/android-sdk-license \
   && echo "84831b9409646a918e30573bab4c9c91346d8abd" > $ANDROID_HOME/licenses/android-sdk-preview-license
 
-ADD packages.txt /home/docker/sdk
+ADD packages.txt $USER_HOME/sdk
 RUN mkdir -p $USER_HOME/.android && \
   touch $USER_HOME/.android/repositories.cfg && \
   ${ANDROID_HOME}/tools/bin/sdkmanager --update 
@@ -92,16 +95,5 @@ RUN echo "Installing Gradle" \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
 	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
 
-RUN echo "Installing inotify" \
-  && apt-get install -y inotify-tools
 
-RUN echo "Installing Sudo" \
-  && apt-get update && apt-get install sudo
-
-RUN echo "Add User to Sudo group" \
-  && adduser docker sudo
-
-RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-USER docker
 
