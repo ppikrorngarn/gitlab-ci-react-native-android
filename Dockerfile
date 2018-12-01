@@ -6,10 +6,10 @@
 #
 
 FROM ubuntu:18.04
-MAINTAINER Sascha-Matthias Kulawik <sascha@kulawik.de>
 
 RUN apt-get -qq update && \
     apt-get install -qqy --no-install-recommends \
+      apt-utils \
       bzip2 \
       curl \
       git-core \
@@ -42,7 +42,8 @@ ENV GRADLE_VERSION 4.6
 RUN rm -f /etc/ssl/certs/java/cacerts; \
     /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
-RUN mkdir $USER_HOME
+RUN echo "Add Docker User" \
+  && adduser --disabled-password --gecos '' docker
 
 RUN curl -s https://dl.google.com/android/repository/sdk-tools-linux-${VERSION_SDK_TOOLS}.zip > $USER_HOME/sdk.zip && \
     unzip $USER_HOME/sdk.zip -d $USER_HOME/sdk && \
@@ -96,9 +97,6 @@ RUN echo "Installing inotify" \
 
 RUN echo "Installing Sudo" \
   && apt-get update && apt-get install sudo
-
-RUN echo "Add Docker User" \
-  && adduser --disabled-password --gecos '' docker
 
 RUN echo "Add User to Sudo group" \
   && adduser docker sudo
