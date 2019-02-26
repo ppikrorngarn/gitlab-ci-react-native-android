@@ -63,6 +63,10 @@ RUN mkdir -p $USER_HOME/.android && \
 
 RUN while read -r package; do PACKAGES="${PACKAGES}${package} "; done < $USER_HOME/sdk/packages.txt && \
     ${ANDROID_HOME}/tools/bin/sdkmanager ${PACKAGES}
+ 
+RUN echo "Installing Yarn Deb Source" \
+	&& curl -sS http://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+	&& echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 RUN mkdir $NVM_DIR
 
@@ -77,7 +81,7 @@ RUN echo "source $NVM_DIR/nvm.sh && \
     nvm alias default $NODE_VERSION && \
     nvm use default" | bash
 
-ENV BUILD_PACKAGES git build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev
+ENV BUILD_PACKAGES git yarn build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev
 RUN echo "Installing Additional Libraries" \
 	 && rm -rf /var/lib/gems \
 	 && apt-get update && apt-get install $BUILD_PACKAGES -qqy --no-install-recommends
