@@ -1,7 +1,7 @@
 # gitlab-ci-react-native-android
 This Docker image contains react-native and the Android SDK and most common packages necessary for building Android apps in a CI tool like GitLab CI.
 
-Whenever a new commit is pushed, a new image is automatically built on docker hub as (branch develop):
+Whenever a new commit is pushed, a new image is automatically built on docker hub as (branch master):
 
 simonsimya/gitlab-ci-react-native-android:latest
 
