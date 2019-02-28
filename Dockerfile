@@ -22,6 +22,7 @@ RUN apt-get -qq update && \
       lib32z1 \
       unzip \
       gnupg \
+      openssh-server \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN echo "Android SDK 28.0.3"
@@ -99,6 +100,13 @@ RUN echo "Installing Gradle" \
 	&& rm gradle.zip \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
 	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
+
+#Clone via ssh instead of http
+#This is used for libraries that we clone from a private gitlab repo.
+#Setup see here https://divan.github.io/posts/go_get_private/
+RUN echo "[url \"git@gitlab.com:\"]\n\tinsteadOf = https://gitlab.com/" >> $USER_HOME/.gitconfig
+RUN mkdir /root/.ssh && echo "StrictHostKeyChecking no " > $USER_HOME/.ssh/config
+
 
 
 
