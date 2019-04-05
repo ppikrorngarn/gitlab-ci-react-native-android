@@ -105,7 +105,7 @@ RUN echo "Installing Bundler" \
 	&& gem install bundler
 
 RUN echo "Install zlib1g-dev for Bundler" \
-  apt-get install -qqy --no-install-recommends \
+  && apt-get install -qqy --no-install-recommends \
   zlib1g-dev
 
 #Clone via ssh instead of http
