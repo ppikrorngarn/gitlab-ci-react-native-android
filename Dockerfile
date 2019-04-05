@@ -104,6 +104,10 @@ RUN echo "Installing Gradle" \
 RUN echo "Installing Bundler" \
 	&& gem install bundler
 
+RUN echo "Install zlib1g-dev for Bundler" \
+  apt-get install -qqy --no-install-recommends \
+  zlib1g-dev
+
 #Clone via ssh instead of http
 #This is used for libraries that we clone from a private gitlab repo.
 #Setup see here https://divan.github.io/posts/go_get_private/
