@@ -100,6 +100,9 @@ RUN echo "Installing Gradle" \
 	&& rm gradle.zip \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
 	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
+	
+RUN echo "Installing Bundler" \
+	&& gem install bundler
 
 #Clone via ssh instead of http
 #This is used for libraries that we clone from a private gitlab repo.
