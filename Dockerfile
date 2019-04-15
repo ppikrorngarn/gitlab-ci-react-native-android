@@ -117,6 +117,10 @@ RUN echo "Install Watchman" && \
   cd watchman-${WATCHMAN_VERSION} && ./autogen.sh && ./configure && make && make install && \
   cd /tmp && rm -rf watchman-${WATCHMAN_VERSION}
 
+RUN echo "Install Git LFS" && \
+  curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh && \
+  apt-get update && apt-get install git-lfs
+
 #Clone via ssh instead of http
 #This is used for libraries that we clone from a private gitlab repo.
 #Setup see here https://divan.github.io/posts/go_get_private/
