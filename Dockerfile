@@ -101,8 +101,9 @@ RUN echo "Installing Gradle" \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
 	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
 	
-RUN echo "Installing Bundler" \
-	&& gem install bundler
+# Install specific bundler version as we use fastlane and specify the bundler version in the Gemfile.lock in multiple projects
+RUN echo "Installing Bundler 2.0.1" \
+	&& gem install bundler -v 2.0.1
 
 RUN echo "Install zlib1g-dev for Bundler" \
   && apt-get install -qqy --no-install-recommends \
