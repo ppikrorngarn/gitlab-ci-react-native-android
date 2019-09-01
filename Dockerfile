@@ -70,7 +70,7 @@ RUN while read -r package; do PACKAGES="${PACKAGES}${package} "; done < $USER_HO
 
 RUN ${ANDROID_HOME}/tools/bin/sdkmanager "emulator" "build-tools;${BUILD_TOOLS}" "platforms;${ANDROID_PLATFORM}" "system-images;${ANDROID_PLATFORM};google_apis;armeabi-v7a"
 
-RUN echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -n "Android" -k "system-images;${ANDROID_PLATFORM};google_apis;x86_64" \
+RUN echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -n "Android" -k "system-images;${ANDROID_PLATFORM};google_apis;armeabi-v7a" \
   && ln -s ${ANDROID_HOME}/tools/emulator /usr/bin \
   && ln -s ${ANDROID_HOME}/platform-tools/adb /usr/bin
 
