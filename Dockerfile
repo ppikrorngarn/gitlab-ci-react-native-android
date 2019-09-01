@@ -27,7 +27,8 @@ RUN apt-get -qq update && \
 
 RUN echo "Android SDK 28.0.3"
 ENV VERSION_SDK_TOOLS "4333796"
-ENV BUILD_TOOLS="28.0.3"
+ENV BUILD_TOOLS="26.0.0"
+ENV ANDROID_PLATFORM="android-25"
 
 ENV USER_HOME "/root"
 RUN echo "ANDROID_HOME: $USER_HOME/sdk"
@@ -67,9 +68,7 @@ RUN mkdir -p $USER_HOME/.android && \
 RUN while read -r package; do PACKAGES="${PACKAGES}${package} "; done < $USER_HOME/sdk/packages.txt && \
     ${ANDROID_HOME}/tools/bin/sdkmanager ${PACKAGES}
 
-ENV ANDROID_PLATFORM="android-28"
-
-RUN ${ANDROID_HOME}/tools/bin/sdkmanager "emulator" "build-tools;${BUILD_TOOLS}" "platforms;${ANDROID_PLATFORM}" "system-images;${ANDROID_PLATFORM};google_apis;x86_64"
+RUN ${ANDROID_HOME}/tools/bin/sdkmanager "emulator" "build-tools;${BUILD_TOOLS}" "platforms;${ANDROID_PLATFORM}" "system-images;${ANDROID_PLATFORM};google_apis;armeabi-v7a"
 
 RUN echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -n "Android" -k "system-images;${ANDROID_PLATFORM};google_apis;x86_64" \
   && ln -s ${ANDROID_HOME}/tools/emulator /usr/bin \
