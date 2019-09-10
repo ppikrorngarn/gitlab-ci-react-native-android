@@ -3,6 +3,23 @@
 #This script is for setting up a shell runner with an Android emulator for automatically taking screenshots
 #Make sure that the file package.txt is in the same folder as this script!
 
+#RUNNING INSTSTRUCTIONS
+#
+#Change user to gitlabrunner and switch to home folder:
+#
+# su gitlab-runner
+# cd
+#
+# Place this script along with packages.txt in this folder:
+#
+# touch setupShellRunner.sh
+# nano setupShellRunner.sh
+# copy this script into the file
+#
+# touch packages.txt
+# nano packages.txt
+# copy the packages.txt content into the file
+
 su gitlab-runner
 cd
 apt-get -qq update && \
