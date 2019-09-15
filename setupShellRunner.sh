@@ -20,8 +20,14 @@
 # nano packages.txt
 # copy the packages.txt content into the file
 
-su gitlab-runner
-cd
+# Reference implementation: See simya9
+
+# Note that if you use root to install this script, you'll have to install and run
+# gitlab-runner as root as well.
+# Details see here: https://docs.gitlab.com/runner/install/linux-manually.html
+# For install, use this command: sudo gitlab-runner install --user=root --working-directory=/home/gitlab-runner
+# However, it's recommended to use the user gitlab-runner in the first place.
+
 apt-get -qq update && \
     apt-get install -qqy --no-install-recommends \
       apt-utils \
@@ -45,9 +51,10 @@ export VERSION_SDK_TOOLS="4333796"
 export BUILD_TOOLS="26.0.0"
 export ANDROID_PLATFORM="android-28"
 
-export USER_HOME "~"
+export USER_HOME="~"
 echo "ANDROID_HOME: $USER_HOME/sdk"
 export ANDROID_HOME=$USER_HOME/sdk
+export ANDROID_SDK_ROOT=$ANDROID_HOME
 export PATH="$PATH:${ANDROID_HOME}/tools"
 export DEBIAN_FRONTEND=noninteractive
 
@@ -81,7 +88,7 @@ mkdir -p $USER_HOME/.android && \
 while read -r package; do PACKAGES="${PACKAGES}${package} "; done < $USER_HOME/sdk/packages.txt && \
     ${ANDROID_HOME}/tools/bin/sdkmanager ${PACKAGES}
 
-echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -n "Android" -k "system-images;${ANDROID_PLATFORM};google_apis;x86_64" \
+echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -n "Android28" -k "system-images;${ANDROID_PLATFORM};google_apis;x86_64" \
   && ln -s ${ANDROID_HOME}/tools/emulator /usr/bin \
   && ln -s ${ANDROID_HOME}/platform-tools/adb /usr/bin
 
@@ -148,3 +155,13 @@ echo "[url \"git@gitlab.com:\"]\n\tinsteadOf = https://gitlab.com/" >> $USER_HOM
 mkdir $USER_HOME/.ssh && echo "StrictHostKeyChecking no " > $USER_HOME/.ssh/config
 
 echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
+
+# Docs see here: https://www.tecmint.com/install-imagemagick-on-debian-ubuntu/
+echo "Install Image Magick" && \
+wget https://www.imagemagick.org/download/ImageMagick.tar.gz && \
+tar xvzf ImageMagick.tar.gz && \
+cd ImageMagick-7.0.8-64/ && \
+./configure && \
+make && \
+make install && \
+ldconfig /usr/local/lib
