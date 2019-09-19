@@ -158,6 +158,7 @@ echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud
 
 # Docs see here: https://www.tecmint.com/install-imagemagick-on-debian-ubuntu/
 echo "Install Image Magick" && \
+apt-get install build-essential && \
 wget https://www.imagemagick.org/download/ImageMagick.tar.gz && \
 tar xvzf ImageMagick.tar.gz && \
 cd ImageMagick-7.0.8-64/ && \
