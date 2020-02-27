@@ -8,22 +8,22 @@
 FROM ubuntu:18.04
 
 RUN apt-get -qq update && \
-    apt-get install -qqy --no-install-recommends \
-      apt-utils \
-      bzip2 \
-      curl \
-      git-core \
-      html2text \
-      openjdk-8-jdk \
-      libc6-i386 \
-      lib32stdc++6 \
-      lib32gcc1 \
-      lib32ncurses5 \
-      lib32z1 \
-      unzip \
-      gnupg \
-      openssh-server \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  apt-get install -qqy --no-install-recommends \
+  apt-utils \
+  bzip2 \
+  curl \
+  git-core \
+  html2text \
+  openjdk-8-jdk \
+  libc6-i386 \
+  lib32stdc++6 \
+  lib32gcc1 \
+  lib32ncurses5 \
+  lib32z1 \
+  unzip \
+  gnupg \
+  openssh-server \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN echo "Android SDK 28.0.3"
 ENV VERSION_SDK_TOOLS "4333796"
@@ -44,7 +44,7 @@ ENV GRADLE_HOME /opt/gradle
 ENV GRADLE_VERSION 4.6
 
 RUN rm -f /etc/ssl/certs/java/cacerts; \
-    /var/lib/dpkg/info/ca-certificates-java.postinst configure
+  /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
 RUN echo "Installing Sudo" \
   && apt-get update && apt-get install sudo
@@ -53,8 +53,8 @@ RUN echo "Installing inotify" \
   && sudo apt-get install -y inotify-tools
 
 RUN curl -s https://dl.google.com/android/repository/sdk-tools-linux-${VERSION_SDK_TOOLS}.zip > $USER_HOME/sdk.zip && \
-    unzip $USER_HOME/sdk.zip -d $USER_HOME/sdk && \
-    rm -v $USER_HOME/sdk.zip
+  unzip $USER_HOME/sdk.zip -d $USER_HOME/sdk && \
+  rm -v $USER_HOME/sdk.zip
 
 RUN mkdir -p $ANDROID_HOME/licenses/ \
   && echo "8933bad161af4178b1185d1a37fbf41ea5269c55\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_HOME/licenses/android-sdk-license \
@@ -66,7 +66,7 @@ RUN mkdir -p $USER_HOME/.android && \
   ${ANDROID_HOME}/tools/bin/sdkmanager --update 
 
 RUN while read -r package; do PACKAGES="${PACKAGES}${package} "; done < $USER_HOME/sdk/packages.txt && \
-    ${ANDROID_HOME}/tools/bin/sdkmanager ${PACKAGES}
+  ${ANDROID_HOME}/tools/bin/sdkmanager ${PACKAGES}
 
 RUN ${ANDROID_HOME}/tools/bin/sdkmanager "emulator" "build-tools;${BUILD_TOOLS}" "platforms;${ANDROID_PLATFORM}" "system-images;${ANDROID_PLATFORM};google_apis;x86_64"
 
@@ -75,43 +75,47 @@ RUN echo no | ${ANDROID_HOME}/tools/bin/avdmanager create avd -n "Android" -k "s
   && ln -s ${ANDROID_HOME}/platform-tools/adb /usr/bin
 
 RUN echo "Installing Yarn Deb Source" \
-	&& curl -sS http://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-	&& echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  && curl -sS http://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+  && echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 RUN mkdir $NVM_DIR
 
 RUN echo "Installing NVM" \
-	&& curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
+  && curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
 RUN echo "source $NVM_DIR/nvm.sh && \
-    nvm install $NODE_VERSION && \
-    nvm alias default $NODE_VERSION && \
-    nvm use default" | bash
+  nvm install $NODE_VERSION && \
+  nvm alias default $NODE_VERSION && \
+  nvm use default" | bash
 
 ENV BUILD_PACKAGES git yarn build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev
 RUN echo "Installing Additional Libraries" \
-	 && rm -rf /var/lib/gems \
-	 && apt-get update && apt-get install $BUILD_PACKAGES -qqy --no-install-recommends
+  && rm -rf /var/lib/gems \
+  && apt-get update && apt-get install $BUILD_PACKAGES -qqy --no-install-recommends
 
 RUN echo "Installing Fastlane 2.61.0" \
-	&& gem install fastlane badge -N \
-	&& gem cleanup
+  && gem install fastlane badge -N \
+  && gem cleanup
 
 RUN echo "Downloading Gradle" \
-	&& wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
+  && wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
 
 RUN echo "Installing Gradle" \
-	&& unzip gradle.zip \
-	&& rm gradle.zip \
-	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
-	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
-	
+  && unzip gradle.zip \
+  && rm gradle.zip \
+  && mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
+  && ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
+
+# Install firebase-tools
+RUN echo "Installing Firebase Tools" \
+  && npm install -g firebase-tools
+
 # Install specific bundler version as we use fastlane and specify the bundler version in the Gemfile.lock in multiple projects
 RUN echo "Installing Bundler 2.0.1" \
-	&& gem install bundler -v 2.0.1
+  && gem install bundler -v 2.0.1
 
 RUN echo "Install zlib1g-dev for Bundler" \
   && apt-get install -qqy --no-install-recommends \
