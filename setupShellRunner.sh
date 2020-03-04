@@ -51,7 +51,7 @@ export VERSION_SDK_TOOLS="4333796"
 export BUILD_TOOLS="26.0.0"
 export ANDROID_PLATFORM="android-28"
 
-export USER_HOME="~"
+export USER_HOME="/root" # If use ~ copy and move command will not work
 echo "ANDROID_HOME: $USER_HOME/sdk"
 export ANDROID_HOME=$USER_HOME/sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
@@ -59,17 +59,18 @@ export PATH="$PATH:${ANDROID_HOME}/tools"
 export DEBIAN_FRONTEND=noninteractive
 
 export NVM_DIR=/usr/local/nvm
-export NVM_VERSIO=v0.33.11
+export NVM_VERSION=v0.33.11
 export NODE_VERSION=v8.12.0
 
 export GRADLE_HOME=/opt/gradle
 export GRADLE_VERSION=4.6
 
-sudo rm -f /etc/ssl/certs/java/cacerts; \
+rm -f /etc/ssl/certs/java/cacerts; \
     /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
-echo "Installing inotify" \
-  && apt-get install -y inotify-tools
+echo "Installing inotify" && \
+  apt-get update && \
+  apt-get install -y inotify-tools
 
 curl -s https://dl.google.com/android/repository/sdk-tools-linux-${VERSION_SDK_TOOLS}.zip > $USER_HOME/sdk.zip && \
     unzip $USER_HOME/sdk.zip -d $USER_HOME/sdk && \
@@ -131,8 +132,8 @@ echo "Installing Gradle" \
 echo "Installing Bundler 2.0.1" \
 	&& gem install bundler -v 2.0.1
 
-echo "Install zlib1g-dev for Bundler" \
-  && apt-get install -qqy --no-install-recommends \
+echo "Install zlib1g-dev for Bundler" && \
+  apt-get update && apt-get install -qqy --no-install-recommends \
   zlib1g-dev
 
 export WATCHMAN_VERSION=4.9.0
@@ -158,10 +159,11 @@ echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud
 
 # Docs see here: https://www.tecmint.com/install-imagemagick-on-debian-ubuntu/
 echo "Install Image Magick" && \
+apt-get update && \
 apt-get install build-essential && \
 wget https://www.imagemagick.org/download/ImageMagick.tar.gz && \
 tar xvzf ImageMagick.tar.gz && \
-cd ImageMagick-7.0.8-64/ && \
+cd $(find . -name "Imagemagick*" -type d -maxdepth 1 -print | head -n1) && \
 ./configure && \
 make && \
 make install && \
