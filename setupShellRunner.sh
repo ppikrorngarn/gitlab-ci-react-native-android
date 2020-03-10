@@ -213,3 +213,9 @@ echo "Download and install Android28 and SixPointFive emulators" && \
   rm -rf .android/avd && \
   mv avd .android/
 
+echo "Increase Watchman inotify" && \
+  echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_watches && \
+  echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_queued_events && \
+  echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_instances && \
+  watchman shutdown-server
+
