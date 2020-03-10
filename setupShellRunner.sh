@@ -44,6 +44,7 @@ apt-get -qq update && \
       unzip \
       gnupg \
       openssh-server \
+      sudo \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 echo "Android SDK 28.0.3"
