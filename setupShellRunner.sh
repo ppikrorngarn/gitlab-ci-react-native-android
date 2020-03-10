@@ -119,10 +119,6 @@ echo "Installing Additional Libraries" \
 	 && rm -rf /var/lib/gems \
 	 && apt-get update && apt-get install $BUILD_PACKAGES -qqy --no-install-recommends
 
-echo "Installing Fastlane 2.61.0" \
-	&& gem install fastlane badge -N \
-	&& gem cleanup
-
 echo "Downloading Gradle" \
 	&& wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
 
@@ -131,6 +127,21 @@ echo "Installing Gradle" \
 	&& rm gradle.zip \
 	&& mv "gradle-${GRADLE_VERSION}" "${GRADLE_HOME}/" \
 	&& ln --symbolic "${GRADLE_HOME}/bin/gradle" /usr/bin/gradle
+
+echo "Installing Fastlane 2.61.0" \
+	&& gem install fastlane badge -N \
+	&& gem cleanup
+
+echo "Install RVM and Ruby 2.6.3" && \
+  gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB && \
+  apt-get install -y software-properties-common && \
+  apt-add-repository -y ppa:rael-gc/rvm && \
+  apt-get update && \
+  apt-get install -y rvm && \
+  echo 'source "/etc/profile.d/rvm.sh"' >> $BASH_PROFILE && \
+  source $BASH_PROFILE && \
+  rvm install 2.6.3 && \
+  rvm use 2.6.3
 
 echo "Installing Bundler 2.0.1" \
 	&& gem install bundler -v 2.0.1
