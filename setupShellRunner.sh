@@ -177,13 +177,25 @@ echo "StrictHostKeyChecking no " > $USER_HOME/.ssh/config
 echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
 
 # Docs see here: https://www.tecmint.com/install-imagemagick-on-debian-ubuntu/
-echo "Install Image Magick" && \
-apt-get update && \
-apt-get install build-essential && \
-wget https://www.imagemagick.org/download/ImageMagick.tar.gz && \
-tar xvzf ImageMagick.tar.gz && \
-cd $(find . -name "Imagemagick*" -type d -maxdepth 1 -print | head -n1) && \
-./configure && \
-make && \
-make install && \
-ldconfig /usr/local/libsource $BASH_PROFILE
+# zlib1g-dev is already installed with Bundler installation
+# libpng12-dev is only available on Ubuntu 16, so replaced it with libpng16-16
+echo "Install ImageMagick" && \
+  apt-get update && \
+  apt-get install -qqy build-essential \
+    checkinstall \
+    libx11-dev \
+    libxext-dev \
+    libpng16-16 \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libxml2-dev && \
+  wget https://www.imagemagick.org/download/ImageMagick.tar.gz && \
+  tar xvzf ImageMagick.tar.gz && \
+  cd $(find . -maxdepth 1 -type d -name "ImageMagick*") && \
+  ./configure && \
+  make && \
+  make install && \
+  ldconfig /usr/local/lib && \
+  cd $USER_HOME && \
+  rm ImageMagick.tar.gz
+
