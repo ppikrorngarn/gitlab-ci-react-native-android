@@ -219,3 +219,12 @@ echo "Increase Watchman inotify" && \
   echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_instances && \
   watchman shutdown-server
 
+echo "Export PATH in .profile" && \
+    echo 'export USER_HOME="/root"' >> $BASH_PROFILE && \
+    echo 'export ANDROID_HOME=$USER_HOME/sdk' >> $BASH_PROFILE && \
+    echo 'export ANDROID_SDK_ROOT=$ANDROID_HOME' >> $BASH_PROFILE && \
+    echo 'export PATH=$PATH:$ANDROID_HOME/emulator' >> $BASH_PROFILE && \
+    echo 'export PATH=$PATH:$ANDROID_HOME/tools' >> $BASH_PROFILE && \
+    echo 'export PATH=$PATH:$ANDROID_HOME/platform-tools' >> $BASH_PROFILE
+
+source $BASH_PROFILE
