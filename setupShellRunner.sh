@@ -199,3 +199,11 @@ echo "Install ImageMagick" && \
   cd $USER_HOME && \
   rm ImageMagick.tar.gz
 
+# Must start emulator created by avdmanager to auto internally linking avd path
+($ANDROID_HOME/emulator/emulator @Android28 -no-audio -no-window) & \
+  echo "Starting emulator for the first time." && \
+  sleep 60 && \
+  adb kill-server && \
+  adb devices | grep "emulator-" | while read -r emulator device; do adb -s $emulator emu kill; done && \
+  echo "Emulator stopped."
+
