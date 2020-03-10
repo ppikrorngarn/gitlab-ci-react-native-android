@@ -105,6 +105,8 @@ mkdir $NVM_DIR
 echo "Installing NVM" \
 	&& curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
 
+source $BASH_PROFILE
+
 export NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
 export PATH=$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
@@ -159,9 +161,12 @@ echo "Install Watchman" && \
   cd watchman-${WATCHMAN_VERSION} && ./autogen.sh && ./configure && make && make install && \
   cd /tmp && rm -rf watchman-${WATCHMAN_VERSION}
 
+cd $USER_HOME
+
 echo "Install Git LFS" && \
   curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh && \
-  apt-get update && apt-get install git-lfs
+  apt-get update && \
+  apt-get install -qqy git-lfs
 
 #Clone via ssh instead of http
 #This is used for libraries that we clone from a private gitlab repo.
@@ -181,4 +186,4 @@ cd $(find . -name "Imagemagick*" -type d -maxdepth 1 -print | head -n1) && \
 ./configure && \
 make && \
 make install && \
-ldconfig /usr/local/lib
+ldconfig /usr/local/libsource $BASH_PROFILE
