@@ -113,7 +113,7 @@ echo "source $NVM_DIR/nvm.sh && \
     nvm alias default $NODE_VERSION && \
     nvm use default" | bash
 
-export BUILD_PACKAGES=git yarn build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev
+export BUILD_PACKAGES="git yarn build-essential imagemagick librsvg2-bin ruby ruby-dev wget libcurl4-openssl-dev"
 
 echo "Installing Additional Libraries" \
 	 && rm -rf /var/lib/gems \
