@@ -5,7 +5,7 @@
 
 #RUNNING INSTSTRUCTIONS
 #
-#Change user to gitlabrunner and switch to home folder:
+#Change user to gitlab-runner and switch to home folder:
 #
 # su gitlab-runner
 # cd
