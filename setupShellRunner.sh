@@ -66,6 +66,8 @@ export NODE_VERSION=v8.12.0
 export GRADLE_HOME=/opt/gradle
 export GRADLE_VERSION=4.6
 
+export BASH_PROFILE=$USER_HOME/.profile
+
 rm -f /etc/ssl/certs/java/cacerts; \
     /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
