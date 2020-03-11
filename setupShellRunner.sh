@@ -228,3 +228,10 @@ echo "Export PATH in .profile" && \
     echo 'export PATH=$PATH:$ANDROID_HOME/platform-tools' >> $BASH_PROFILE
 
 source $BASH_PROFILE
+
+echo "Install gitlab-runner binary" && \
+  curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64 && \
+  chmod +x /usr/local/bin/gitlab-runner && \
+  gitlab-runner install --user=root --working-directory=/root/gitlab-runner && \
+  gitlab-runner start && \
+  echo "Please follow the instructions on https://docs.gitlab.com/runner/register/index.html to register your runner!"
