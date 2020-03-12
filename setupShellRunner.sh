@@ -211,7 +211,8 @@ echo "Download and install Android28 and SixPointFive emulators" && \
   wget -O avd.tar.gz "https://firebasestorage.googleapis.com/v0/b/storage-353d1.appspot.com/o/avd.tar.gz?alt=media&token=ebdd3e59-927c-4940-9549-7551337b2c83" && \
   tar -zxf avd.tar.gz && \
   rm -rf .android/avd && \
-  mv avd .android/
+  mv avd .android/ && \
+  rm avd.tar.gz
 
 echo "Increase Watchman inotify permanently" && \
   echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && \
