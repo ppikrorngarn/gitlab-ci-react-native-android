@@ -171,7 +171,7 @@ echo "Install Git LFS" && \
 #Clone via ssh instead of http
 #This is used for libraries that we clone from a private gitlab repo.
 #Setup see here https://divan.github.io/posts/go_get_private/
-echo "[url \"git@gitlab.com:\"]\n\tinsteadOf = https://gitlab.com/" >> $USER_HOME/.gitconfig
+echo "[url \"git@gitlab.com:\"]\\n\\tinsteadOf = https://gitlab.com/" >> $USER_HOME/.gitconfig
 echo "StrictHostKeyChecking no " > $USER_HOME/.ssh/config
 
 echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
@@ -211,13 +211,12 @@ echo "Download and install Android28 and SixPointFive emulators" && \
   wget -O avd.tar.gz "https://firebasestorage.googleapis.com/v0/b/storage-353d1.appspot.com/o/avd.tar.gz?alt=media&token=ebdd3e59-927c-4940-9549-7551337b2c83" && \
   tar -zxf avd.tar.gz && \
   rm -rf .android/avd && \
-  mv avd .android/
+  mv avd .android/ && \
+  rm avd.tar.gz
 
-echo "Increase Watchman inotify" && \
-  echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_watches && \
-  echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_queued_events && \
-  echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_instances && \
-  watchman shutdown-server
+echo "Increase Watchman inotify permanently" && \
+  echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && \
+  sysctl -p
 
 echo "Export PATH in .profile" && \
     echo 'export USER_HOME="/root"' >> $BASH_PROFILE && \
@@ -228,3 +227,13 @@ echo "Export PATH in .profile" && \
     echo 'export PATH=$PATH:$ANDROID_HOME/platform-tools' >> $BASH_PROFILE
 
 source $BASH_PROFILE
+
+echo "Fix unable to yarn install as a runner" && \
+  echo "PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/nvm/versions/node/v8.12.0/bin:/usr/share/rvm/gems/ruby-2.6.3/bin:/usr/share/rvm/gems/ruby-2.6.3@global/bin:/usr/share/rvm/rubies/ruby-2.6.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/share/rvm/bin:/root/sdk/emulator:/root/sdk/tools:/root/sdk/platform-tools\"" > /etc/environment
+
+echo "Install gitlab-runner binary" && \
+  curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64 && \
+  chmod +x /usr/local/bin/gitlab-runner && \
+  gitlab-runner install --user=root --working-directory=/root/gitlab-runner && \
+  gitlab-runner start && \
+  echo "Please follow the instructions on https://docs.gitlab.com/runner/register/index.html to register your runner!"
