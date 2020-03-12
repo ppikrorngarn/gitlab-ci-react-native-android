@@ -229,6 +229,9 @@ echo "Export PATH in .profile" && \
 
 source $BASH_PROFILE
 
+echo "Fix unable to yarn install as a runner" && \
+  echo "PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/nvm/versions/node/v8.12.0/bin:/usr/share/rvm/gems/ruby-2.6.3/bin:/usr/share/rvm/gems/ruby-2.6.3@global/bin:/usr/share/rvm/rubies/ruby-2.6.3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/share/rvm/bin:/root/sdk/emulator:/root/sdk/tools:/root/sdk/platform-tools\"" > /etc/environment
+
 echo "Install gitlab-runner binary" && \
   curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64 && \
   chmod +x /usr/local/bin/gitlab-runner && \
