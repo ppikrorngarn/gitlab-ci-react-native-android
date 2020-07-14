@@ -120,7 +120,7 @@ RUN echo "Install zlib1g-dev for Bundler" \
 # Install firebase-tools
 ENV FIREBASE_CLI_PATH /usr/local/bin/firebase
 RUN echo "Install firebase-tools" \
-  && curl -sL https://firebase.tools | bash
+  && curl -Lo ./firebase_bin https://firebase.tools/bin/linux/v8.4.1
 
 # Install Watchman
 ENV WATCHMAN_VERSION=4.9.0
