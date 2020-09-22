@@ -147,3 +147,6 @@ RUN git config --global user.name "CI Server"
 
 #Install gcloud for Firebase Testlab
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
+
+#Install Node Firestore-import-export for Courtly
+RUN yarn global add node-firestore-import-export
