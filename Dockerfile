@@ -153,5 +153,6 @@ RUN npm install -g eslint
 #Install Node Firestore-import-export for Courtly
 RUN yarn global add node-firestore-import-export
 
+#Install Ionic dependencies
 RUN npm install -g @ionic/cli
-
+RUN npm install -g cordova
