@@ -27,7 +27,7 @@ RUN apt-get -qq update && \
 
 RUN echo "Android SDK 28.0.3"
 ENV VERSION_SDK_TOOLS "4333796"
-ENV BUILD_TOOLS="26.0.0"
+ENV BUILD_TOOLS="28.0.3"
 ENV ANDROID_PLATFORM="android-25"
 
 ENV USER_HOME "/root"
@@ -38,10 +38,10 @@ ENV DEBIAN_FRONTEND noninteractive
 
 ENV NVM_DIR /usr/local/nvm
 ENV NVM_VERSION v0.36.0
-ENV NODE_VERSION v14.1.0
+ENV NODE_VERSION v8.17.0
 
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 4.6
+ENV GRADLE_VERSION 5.1.1
 
 RUN rm -f /etc/ssl/certs/java/cacerts; \
     /var/lib/dpkg/info/ca-certificates-java.postinst configure
@@ -151,8 +151,9 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.c
 RUN npm install -g eslint
 
 #Install Ionic dependencies
-RUN npm install -g @ionic/cli
-RUN npm install -g @angular/cli
-RUN npm install -g cordova
-RUN npm install -g cordova-res --unsafe-perm
+# RUN npm install -g @ionic/cli
+# RUN npm install -g @angular/cli
+# RUN npm install -g cordova
+# RUN npm install -g cordova-res --unsafe-perm
 
+# COPY ./readle_app/ ./root/readle_app/
