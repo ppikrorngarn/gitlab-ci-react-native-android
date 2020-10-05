@@ -152,7 +152,7 @@ RUN npm install -g eslint
 
 #Install Ionic dependencies
 RUN npm install -g @ionic/cli
-RUN npm install -g @angular/cli
+RUN echo N | npm install -g @angular/cli
 RUN npm install -g cordova
 RUN npm install -g cordova-res --unsafe-perm
 
