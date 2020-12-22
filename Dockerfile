@@ -88,8 +88,8 @@ RUN yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
   "build-tools;20.0.0" \
   "build-tools;21.1.2" \
   "build-tools;22.0.1" \
-  "build-tools;23.0.1" "build-tools;23.0.2" "build-tools;23.0.3" \
-  RUN yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
+  "build-tools;23.0.1" "build-tools;23.0.2" "build-tools;23.0.3"
+RUN yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
   "extras;android;m2repository" \
   "extras;google;m2repository"
 RUN yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
@@ -101,7 +101,6 @@ RUN  yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
   "add-ons;addon-google_apis-google-17" \
   "add-ons;addon-google_apis-google-18" \
   "add-ons;addon-google_apis-google-19" \
-  "add-ons;addon-google_apis-google-20" \
   "add-ons;addon-google_apis-google-21" \
   "add-ons;addon-google_apis-google-22" \
   "add-ons;addon-google_apis-google-23" \
@@ -113,4 +112,6 @@ RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.d
 RUN echo "[url \"git@gitlab.com:\"]\n\tinsteadOf = https://gitlab.com/" >> $USER_HOME/.gitconfig
 RUN mkdir $USER_HOME/.ssh && echo "StrictHostKeyChecking no " > $USER_HOME/.ssh/config
 
-RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+  && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - \
+  && apt-get update -y && apt-get install google-cloud-sdk -y
