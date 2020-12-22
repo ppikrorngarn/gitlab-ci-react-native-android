@@ -114,3 +114,7 @@ RUN mkdir --parents "$HOME/.android/" && \
   "add-ons;addon-google_apis-google-18" \
   "add-ons;addon-google_apis-google-17" \
   "add-ons;addon-google_apis-google-16"
+
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh && \
+  apt-get update && apt-get install git-lfs
+
