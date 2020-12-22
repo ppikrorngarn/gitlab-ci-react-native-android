@@ -13,7 +13,6 @@ ENV ANDROID_NDK_HOME="$ANDROID_NDK/android-ndk-r${ANDROID_NDK_VERSION}"
 ENV PATH="$PATH:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$ANDROID_NDK"
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 ENV TERM=dumb 
-ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y && \
   apt-get install -y software-properties-common && \
