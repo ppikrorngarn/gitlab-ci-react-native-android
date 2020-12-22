@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+SHELL ["/bin/bash", "-c"] 
+
 ENV USER_HOME='/home'
 
 ENV ANDROID_HOME='/opt/android-sdk'
