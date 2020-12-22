@@ -1,5 +1,7 @@
 FROM ubuntu:18.04
 
+ENV USER_HOME='/home'
+
 ENV ANDROID_HOME='/opt/android-sdk'
 ENV ANDROID_NDK='/opt/android-ndk'
 ENV ANDROID_SDK_TOOLS_VERSION='3859397'
@@ -117,5 +119,8 @@ RUN mkdir --parents "$HOME/.android/" && \
 
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh && \
   apt-get update && apt-get install git-lfs
+
+RUN echo "[url \"git@gitlab.com:\"]\n\tinsteadOf = https://gitlab.com/" >> $USER_HOME/.gitconfig
+RUN mkdir $USER_HOME/.ssh && echo "StrictHostKeyChecking no " > $USER_HOME/.ssh/config
 
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-sdk -y
