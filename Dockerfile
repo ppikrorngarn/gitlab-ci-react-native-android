@@ -117,12 +117,15 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.c
   && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - \
   && apt-get update -y && apt-get install google-cloud-sdk -y
 
-RUN mkdir ~/.gnupg
-RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+RUN mkdir ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
 RUN gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-RUN echo 409B6B1796C275462A1703113804BB82D39DC0E3:6: | gpg2 --import-ownertrust # mpapis@gmail.com
-RUN echo 7D2BAF1CF37B13E2069D6956105BD0E739499BDB:6: | gpg2 --import-ownertrust # piotr.kuczynski@gmail.com
-RUN \curl -sSL https://get.rvm.io | bash -s stable
-RUN source /etc/profile.d/rvm.sh && rvm install 2.6.3 && rvm use 2.6.3 && gem install bundler -v 2.0.1
+RUN echo 409B6B1796C275462A1703113804BB82D39DC0E3:6: | gpg2 --import-ownertrust # mpapis@gmail.com \
+  && echo 7D2BAF1CF37B13E2069D6956105BD0E739499BDB:6: | gpg2 --import-ownertrust # piotr.kuczynski@gmail.com
+RUN \curl -sSL https://get.rvm.io | bash -s stable \
+  && source /etc/profile.d/rvm.sh \
+  && rvm install 2.6.3 && rvm use 2.6.3 \
+  && gem install bundler -v 2.0.1 \
+  && bundle config build.nokogiri --use-system-libraries
+  
 RUN echo 'source /etc/profile.d/rvm.sh' >> $USER_HOME/.bashrc
-RUN echo 'BUNDLE_BUILD__NOKOGIRI: "--use-system-libraries"' >> $USER_HOME/.bundle/config
+
