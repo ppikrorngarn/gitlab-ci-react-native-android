@@ -46,7 +46,8 @@ RUN apt-get update -y && \
   wget \
   zip \
   zlib1g-dev \
-  libcurl4-openssl-dev
+  libcurl4-openssl-dev \
+  gnupg2
 
 RUN mkdir ~/.gnupg
 RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
