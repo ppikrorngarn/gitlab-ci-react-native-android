@@ -14,7 +14,10 @@ ENV ANDROID_SDK_HOME="$ANDROID_HOME"
 ENV ANDROID_NDK_HOME="$ANDROID_NDK/android-ndk-r${ANDROID_NDK_VERSION}"
 ENV PATH="$PATH:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$ANDROID_NDK"
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
-ENV TERM=dumb 
+ENV TERM=dumb
+
+ENV RUBY_VERSION='2.6.3'
+ENV BUNDLER_VERSION='2.0.1'
 
 RUN apt-get update -y && \
   apt-get install -y software-properties-common && \
@@ -123,9 +126,9 @@ RUN echo 409B6B1796C275462A1703113804BB82D39DC0E3:6: | gpg2 --import-ownertrust 
   && echo 7D2BAF1CF37B13E2069D6956105BD0E739499BDB:6: | gpg2 --import-ownertrust # piotr.kuczynski@gmail.com
 RUN \curl -sSL https://get.rvm.io | bash -s stable \
   && source /etc/profile.d/rvm.sh \
-  && rvm install 2.6.3 && rvm use 2.6.3 \
-  && gem install bundler -v 2.0.1 \
+  && rvm install $RUBY_VERSION \
+  && rvm --default use $RUBY_VERSION \
+  && gem install bundler -v $BUNDLER_VERSION \
   && bundle config build.nokogiri --use-system-libraries
-  
-RUN echo 'source /etc/profile.d/rvm.sh' >> $USER_HOME/.bashrc
 
+RUN echo 'source /etc/profile.d/rvm.sh' >> $USER_HOME/.bashrc
