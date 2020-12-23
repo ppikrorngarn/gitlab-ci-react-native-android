@@ -125,3 +125,4 @@ RUN echo 7D2BAF1CF37B13E2069D6956105BD0E739499BDB:6: | gpg2 --import-ownertrust 
 RUN \curl -sSL https://get.rvm.io | bash -s stable
 RUN source /etc/profile.d/rvm.sh && rvm install 2.6.3 && rvm use 2.6.3 && gem install bundler -v 2.0.1
 RUN echo 'source /etc/profile.d/rvm.sh' >> $USER_HOME/.bashrc
+RUN echo 'BUNDLE_BUILD__NOKOGIRI: "--use-system-libraries"' >> $USER_HOME/.bundle/config
