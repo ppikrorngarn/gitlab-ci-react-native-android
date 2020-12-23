@@ -49,19 +49,6 @@ RUN apt-get update -y && \
   libcurl4-openssl-dev \
   gnupg2
 
-RUN mkdir ~/.gnupg
-RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
-
-RUN gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-RUN echo 409B6B1796C275462A1703113804BB82D39DC0E3:6: | gpg2 --import-ownertrust # mpapis@gmail.com
-RUN echo 7D2BAF1CF37B13E2069D6956105BD0E739499BDB:6: | gpg2 --import-ownertrust # piotr.kuczynski@gmail.com
-RUN \curl -sSL https://get.rvm.io | bash -s stable
-RUN source /etc/profile.d/rvm.sh
-RUN echo 'source /etc/profile.d/rvm.sh' >> $USER_HOME/.profile
-RUN source $USER_HOME/.profile && rvm install 2.6.3 && rvm use 2.6.3
-
-RUN gem install bundler -v 2.0.1
-
 RUN wget --quiet --output-document=sdk-tools.zip \
   "https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS_VERSION}.zip" && \
   mkdir --parents "$ANDROID_HOME" && \
@@ -74,8 +61,8 @@ RUN wget --quiet --output-document=sdk-tools.zip \
   unzip -q android-ndk.zip -d "$ANDROID_NDK" && \
   rm --force android-ndk.zip
 
-RUN mkdir --parents "$HOME/.android/" 
-RUN echo '### User Sources for Android SDK Manager' > "$HOME/.android/repositories.cfg" 
+RUN mkdir --parents "$USER_HOME/.android/" 
+RUN echo '### User Sources for Android SDK Manager' > "$USER_HOME/.android/repositories.cfg" 
 RUN yes | "$ANDROID_HOME"/tools/bin/sdkmanager --licenses > /dev/null
 RUN yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
   "platforms;android-16" \
@@ -129,3 +116,12 @@ RUN mkdir $USER_HOME/.ssh && echo "StrictHostKeyChecking no " > $USER_HOME/.ssh/
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
   && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - \
   && apt-get update -y && apt-get install google-cloud-sdk -y
+
+RUN mkdir ~/.gnupg
+RUN echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf
+RUN gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+RUN echo 409B6B1796C275462A1703113804BB82D39DC0E3:6: | gpg2 --import-ownertrust # mpapis@gmail.com
+RUN echo 7D2BAF1CF37B13E2069D6956105BD0E739499BDB:6: | gpg2 --import-ownertrust # piotr.kuczynski@gmail.com
+RUN \curl -sSL https://get.rvm.io | bash -s stable
+RUN source /etc/profile.d/rvm.sh && rvm install 2.6.3 && rvm use 2.6.3 && gem install bundler -v 2.0.1
+RUN echo 'source /etc/profile.d/rvm.sh' >> $USER_HOME/.bashrc
