@@ -118,8 +118,8 @@ echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud
 
 mkdir ~/.gnupg && echo "disable-ipv6" >>~/.gnupg/dirmngr.conf
 gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-echo 409B6B1796C275462A1703113804BB82D39DC0E3:6: | gpg2 --import-ownertrust &&  # mpapis@gmail.com \
-    echo 7D2BAF1CF37B13E2069D6956105BD0E739499BDB:6: | gpg2 --import-ownertrust # piotr.kuczynski@gmail.com
+echo 409B6B1796C275462A1703113804BB82D39DC0E3:6: | gpg2 --import-ownertrust && \ 
+echo 7D2BAF1CF37B13E2069D6956105BD0E739499BDB:6: | gpg2 --import-ownertrust
 \curl -sSL https://get.rvm.io | bash -s stable &&
     source /etc/profile.d/rvm.sh &&
     rvm install $RUBY_VERSION &&
