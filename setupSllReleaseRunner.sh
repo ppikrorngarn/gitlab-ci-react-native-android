@@ -1,11 +1,10 @@
 #!/bin/bash
 export USER_HOME='/root'
-export ANDROID_HOME="$USER_HOME/android-sdk"
-export ANDROID_NDK="$USER_HOME/android-ndk"
+export ANDROID_HOME="$USER_HOME/.android-sdk"
+export ANDROID_NDK="$USER_HOME/.android-ndk"
 export ANDROID_SDK_TOOLS_VERSION='3859397'
 export ANDROID_NDK_VERSION='15c'
 
-export DEBIAN_FRONTEND='noninteractive'
 export ANDROID_SDK_HOME="$ANDROID_HOME"
 export ANDROID_NDK_HOME="$ANDROID_NDK/android-ndk-r${ANDROID_NDK_VERSION}"
 export PATH="$PATH:$ANDROID_SDK_HOME/tools:$ANDROID_SDK_HOME/platform-tools:$ANDROID_NDK"
@@ -62,15 +61,13 @@ wget --quiet --output-document=sdk-tools.zip \
 
 mkdir --parents "$USER_HOME/.android/"
 echo '### User Sources for Android SDK Manager' >"$USER_HOME/.android/repositories.cfg"
-yes | "$ANDROID_HOME"/tools/bin/sdkmanager --licenses >/dev/null
-yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
+"$ANDROID_HOME"/tools/bin/sdkmanager --licenses
+"$ANDROID_HOME"/tools/bin/sdkmanager \
     "platforms;android-18" \
     "platforms;android-28" \
-    "platforms;android-29"
-yes | "$ANDROID_HOME"/tools/bin/sdkmanager "platform-tools"
-yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
-    "build-tools;28.0.3"
-yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
+    "platforms;android-29" \
+    "platform-tools" \
+    "build-tools;28.0.3" \
     "extras;android;m2repository" \
     "extras;google;m2repository"
 
