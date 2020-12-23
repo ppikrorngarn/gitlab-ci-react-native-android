@@ -109,7 +109,7 @@ yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh &&
     apt-get update && apt-get install git-lfs
 
-echo "[url \"git@gitlab.com:\"]\n\tinsteadOf = https://gitlab.com/" >>$USER_HOME/.gitconfig
+echo -e "[url \"git@gitlab.com:\"]\n\tinsteadOf = https://gitlab.com/" >>$USER_HOME/.gitconfig
 mkdir $USER_HOME/.ssh && echo "StrictHostKeyChecking no " >$USER_HOME/.ssh/config
 
 echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list &&
