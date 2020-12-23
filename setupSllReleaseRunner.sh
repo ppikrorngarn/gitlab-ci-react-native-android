@@ -128,3 +128,9 @@ echo 409B6B1796C275462A1703113804BB82D39DC0E3:6: | gpg2 --import-ownertrust &&  
     bundle config build.nokogiri --use-system-libraries
 
 echo 'source /etc/profile.d/rvm.sh' >>$USER_HOME/.bashrc
+
+curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64 &&
+    chmod +x /usr/local/bin/gitlab-runner &&
+    gitlab-runner install --user=root --working-directory=/root/gitlab-runner &&
+    gitlab-runner start &&
+    echo "Please follow the instructions on https://docs.gitlab.com/runner/register/index.html to register your runner!"
