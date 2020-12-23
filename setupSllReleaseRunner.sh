@@ -127,7 +127,7 @@ echo 7D2BAF1CF37B13E2069D6956105BD0E739499BDB:6: | gpg2 --import-ownertrust
     gem install bundler -v $BUNDLER_VERSION &&
     bundle config build.nokogiri --use-system-libraries
 
-echo 'source /etc/profile.d/rvm.sh' >>$USER_HOME/.bashrc
+echo 'source /etc/profile.d/rvm.sh' >> $USER_HOME/.bashrc
 
 curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64 &&
     chmod +x /usr/local/bin/gitlab-runner &&
