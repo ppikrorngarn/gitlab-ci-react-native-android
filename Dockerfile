@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-SHELL ["/bin/bash", "-c"] 
+SHELL ["/bin/bash", "-l", "-c"]
 
 ENV USER_HOME='/root'
 
@@ -132,3 +132,5 @@ RUN \curl -sSL https://get.rvm.io | bash -s stable \
   && bundle config build.nokogiri --use-system-libraries
 
 RUN echo 'source /etc/profile.d/rvm.sh' >> $USER_HOME/.bashrc
+
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
