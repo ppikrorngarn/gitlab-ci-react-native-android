@@ -1,7 +1,7 @@
 #!/bin/bash
 export USER_HOME='/root'
-export ANDROID_HOME='/opt/android-sdk'
-export ANDROID_NDK='/opt/android-ndk'
+export ANDROID_HOME="$USER_HOME/android-sdk"
+export ANDROID_NDK="$USER_HOME/android-ndk"
 export ANDROID_SDK_TOOLS_VERSION='3859397'
 export ANDROID_NDK_VERSION='15c'
 
