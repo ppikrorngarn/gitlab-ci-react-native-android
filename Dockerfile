@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 SHELL ["/bin/bash", "-c"] 
 
-ENV USER_HOME='/home'
+ENV USER_HOME='/root'
 
 ENV ANDROID_HOME='/opt/android-sdk'
 ENV ANDROID_NDK='/opt/android-ndk'
